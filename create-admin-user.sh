@@ -163,6 +163,22 @@ POLICY_DOC=$(cat <<EOF
       "Effect": "Allow",
       "Action": "sts:GetCallerIdentity",
       "Resource": "*"
+    },
+    {
+      "Sid": "CloudShellAccess",
+      "Effect": "Allow",
+      "Action": [
+        "cloudshell:CreateEnvironment",
+        "cloudshell:GetEnvironmentStatus",
+        "cloudshell:StartEnvironment",
+        "cloudshell:StopEnvironment",
+        "cloudshell:DeleteEnvironment",
+        "cloudshell:PutCredentials",
+        "cloudshell:CreateSession",
+        "cloudshell:GetFileDownloadUrls",
+        "cloudshell:GetFileUploadUrls"
+      ],
+      "Resource": "*"
     }
   ]
 }
@@ -214,7 +230,41 @@ aws iam add-user-to-group \
 log "Added $USER_NAME to group $GROUP_NAME"
 
 # ---------------------------------------------------------------------------
-# STEP 4: GENERATE ACCESS KEYS
+# STEP 4: ENABLE CONSOLE ACCESS
+# ---------------------------------------------------------------------------
+# Creates a login profile so the admin can sign into the AWS Console
+# and use CloudShell to run create-bucket.sh.
+# Password must be changed on first login (--password-reset-required).
+# ---------------------------------------------------------------------------
+
+TEMP_PASSWORD="${BUCKET_PREFIX}-Temp$(date +%s | tail -c 7)!"
+
+if aws iam get-login-profile --user-name "$USER_NAME" &>/dev/null; then
+  warn "Console access already enabled for $USER_NAME"
+else
+  aws iam create-login-profile \
+    --user-name "$USER_NAME" \
+    --password "$TEMP_PASSWORD" \
+    --password-reset-required
+  log "Console access enabled for $USER_NAME"
+
+  CONSOLE_URL="https://${ACCOUNT_ID}.signin.aws.amazon.com/console"
+
+  echo ""
+  echo "=============================================="
+  echo "  CONSOLE LOGIN — SHARE WITH ADMIN USER"
+  echo "  (Password must be changed on first login)"
+  echo "=============================================="
+  echo ""
+  echo "  Sign-in URL:      $CONSOLE_URL"
+  echo "  Username:         $USER_NAME"
+  echo "  Temp Password:    $TEMP_PASSWORD"
+  echo ""
+  echo "=============================================="
+fi
+
+# ---------------------------------------------------------------------------
+# STEP 5: GENERATE ACCESS KEYS
 # ---------------------------------------------------------------------------
 # Check if user already has access keys (max 2 per user)
 EXISTING_KEYS=$(aws iam list-access-keys --user-name "$USER_NAME" --query 'AccessKeyMetadata | length(@)' --output text)
