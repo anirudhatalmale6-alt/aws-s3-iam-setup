@@ -41,9 +41,9 @@ BUCKET_SUFFIX="$2"
 
 # Derived names — follow the naming convention consistently
 BUCKET_NAME="${BUCKET_PREFIX}-${BUCKET_SUFFIX}"
-GROUP_NAME="${BUCKET_PREFIX}-group-${BUCKET_SUFFIX}"
-POLICY_NAME="${BUCKET_PREFIX}-policy-${BUCKET_SUFFIX}"
-USER_NAME="${BUCKET_PREFIX}-user-${BUCKET_SUFFIX}"
+GROUP_NAME="${BUCKET_PREFIX}-${BUCKET_SUFFIX}-group"
+POLICY_NAME="${BUCKET_PREFIX}-${BUCKET_SUFFIX}-policy"
+USER_NAME="${BUCKET_PREFIX}-${BUCKET_SUFFIX}-user-${BUCKET_SUFFIX}"
 
 # ---------------------------------------------------------------------------
 # HELPERS

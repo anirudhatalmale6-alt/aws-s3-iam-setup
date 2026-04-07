@@ -39,9 +39,9 @@ BUCKET_PREFIX="$1"
 ADMIN_USERNAME="$2"
 
 # Derived names
-GROUP_NAME="${BUCKET_PREFIX}-group-admin"
-POLICY_NAME="${BUCKET_PREFIX}-policy-admin"
-USER_NAME="${BUCKET_PREFIX}-user-${ADMIN_USERNAME}"
+GROUP_NAME="${BUCKET_PREFIX}-admin-group"
+POLICY_NAME="${BUCKET_PREFIX}-admin-policy"
+USER_NAME="${BUCKET_PREFIX}-admin-user-${ADMIN_USERNAME}"
 
 # ---------------------------------------------------------------------------
 # HELPERS

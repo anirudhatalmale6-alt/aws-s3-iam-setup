@@ -18,23 +18,23 @@ Root Account (you)
   |
   +-- create-admin-user.sh (run once per admin)
   |     |
-  |     +-- acme-s3backup-group-admin
-  |     |     +-- acme-s3backup-policy-admin (S3 + scoped IAM)
+  |     +-- acme-s3backup-admin-group
+  |     |     +-- acme-s3backup-admin-policy (S3 + scoped IAM)
   |     |
-  |     +-- acme-s3backup-user-admin.john --> group-admin
-  |     +-- acme-s3backup-user-admin.jane --> group-admin
+  |     +-- acme-s3backup-admin-user-admin.john --> admin-group
+  |     +-- acme-s3backup-admin-user-billsmith --> admin-group
   |
   +-- create-bucket.sh (run by admin, once per server)
         |
         +-- acme-s3backup-server001 (S3 bucket)
-        |     +-- acme-s3backup-group-server001
-        |     |     +-- acme-s3backup-policy-server001 (scoped to this bucket)
-        |     +-- acme-s3backup-user-server001 --> group-server001
+        |     +-- acme-s3backup-server001-group
+        |     |     +-- acme-s3backup-server001-policy (scoped to this bucket)
+        |     +-- acme-s3backup-server001-user-server001 --> server001-group
         |
         +-- acme-s3backup-server002 (S3 bucket)
-              +-- acme-s3backup-group-server002
-              |     +-- acme-s3backup-policy-server002 (scoped to this bucket)
-              +-- acme-s3backup-user-server002 --> group-server002
+              +-- acme-s3backup-server002-group
+              |     +-- acme-s3backup-server002-policy (scoped to this bucket)
+              +-- acme-s3backup-server002-user-server002 --> server002-group
 ```
 
 ---
